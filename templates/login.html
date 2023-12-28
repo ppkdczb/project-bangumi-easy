@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}
+	登录
+{% endblock %}
+
+{% block style %}
+    .loginin{
+        width:600px;
+        height:400px;
+        border-radius:10px;
+        border:1px solid #c5aeae;
+	    margin:120px auto;
+    }
+    .c1{
+	    color: #3fadce;
+	    padding-left: 20px;
+	    margin-top: 40px;
+
+    }
+    .c2{
+	    padding-left: 80px;
+	    margin-top: 20px;
+	    width: 80%;
+    }
+
+{% endblock %}
+
+{% block body %}
+<div class = "loginin">
+	<main class="form-signin w-62 m-400 c2">
+  <form>
+    <h1 class="h3 mb-3 fw-normal c1">请登录至 Anime</h1>
+
+    <div class="form-floating">
+      <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+      <label for="floatingInput">Email address</label>
+    </div>
+	  <br>
+    <div class="form-floating">
+      <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+      <label for="floatingPassword">Password</label>
+    </div>
+	  <br><br>
+    <button class="w-100 btn btn-lg btn-primary" type="submit">登录</button>
+    <p class="mt-5 mb-3 text-muted">©2023</p>
+  </form>
+</main>
+</div>
+{% endblock %}

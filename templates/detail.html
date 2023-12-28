@@ -11,7 +11,7 @@
 
 			</div>
 			<div class="col-sm-2">
-				<h4>番剧名</h4>
+				<h4>{{ info.name_cn }}</h4>
 			</div>
 		</div>
 		<div class = "row">
@@ -19,12 +19,11 @@
 
 			</div>
 			<div class = "col-sm-2">
-				<svg class="bd-placeholder-img rounded float-start" width="200" height="200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 200x200" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">200x200</text></svg>
+				<img class="bd-placeholder-img rounded float-start" width="200" height="200" xmlns="http://www.w3.org/1999/xhtml" role="img" aria-label="Placeholder: 200x200" preserveAspectRatio="xMidYMid slice" focusable="false" alt="8" src="{{ info.image }}">
 
 				{{ info.info|safe }}
 				<br>
 				<br>
-				<div>{{ len }}</div>
 				<!--动漫内的info属性-->
 			</div>
 			<div class = "col-sm-5" id = "character">

@@ -17,14 +17,18 @@ db.init_app(app)
 
 @app.route("/query/")
 def query():
+    page = request.args.get('page')
+    if page == "" or page is None:
+        page = 1
+    else:
+        page = int(page)
     anime_name = request.args.get('anime_name')
-    if anime_name == "":
+    if anime_name == "" or anime_name is None:
         return redirect(url_for('index'))
     else:
-        ame = BangumiType2.query.filter(BangumiType2.name_cn.like('%' + anime_name + '%')).all()
-        ame.sort(key=lambda x: x.rating_total, reverse=True)
-        return render_template("query.html", queryname=anime_name, ame=ame)
-
+        pagi = BangumiType2.query.filter(BangumiType2.name_cn.like('%' + anime_name + '%')).paginate(page=page, per_page=15, error_out=False)
+        ame = pagi.items
+        return render_template("query.html", ame=ame, paginate=pagi, anime_name=anime_name)
 
 @app.route("/index")
 def index():

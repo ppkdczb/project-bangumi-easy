@@ -14,167 +14,43 @@
 	<div class = "container">
 		<h3>全部动画</h3>
 		<div class="area">
-			按 <a href="#">评分</a> <a href="#">收藏</a> <a href="#">评论</a> <a href="#">字母</a> 排序
+			按 <a href="/popular/?page=1&sort=rating_total">热度</a> <a href="/popular/?page=1&sort=alpha">字母</a> <a href="/popular/?page=1&sort=begintime">时间</a>  排序
 		</div>
 		<nav aria-label="Page navigation example">
 
 		</nav>
-		<div class="bd-example" style = "margin: 30px">
-			<div class="d-flex position-relative">
-				<svg class="bd-placeholder-img flex-shrink-0 me-3" width="144" height="144" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Generic placeholder image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Generic placeholder image</title><rect width="100%" height="100%" fill="#868e96"></rect></svg>
-				<div>
-					<h5 class="mt-0">Custom component with stretched link</h5>
-					<p>This is some placeholder content for the custom component. It is intended to mimic what some real-world content would look like, and we're using it here to give the component a bit of body and size.</p>
-					<a href="#" class="stretched-link">Go somewhere</a>
+		{% for item in ame %}
+			<div class="bd-example area" style = "margin: 30px">
+				<div class="d-flex position-relative">
+					<img class="bd-placeholder-img flex-shrink-0 me-3" width="144" height="144" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Generic placeholder image" preserveAspectRatio="xMidYMid slice" focusable="false", alt = "img", src = "{{ item.image }}">
+					<div>
+						<h5 class="mt-0">{{
+							item.name_cn if item.name_cn else item.name
+								}}</h5>
+						<div>
+                                {{ item.summary }}
+						</div>
+						<a href="/anime/{{ item.bangumi_id }}" class="stretched-link">查看详情</a>
+					</div>
 				</div>
 			</div>
-		</div>
-		<div class="bd-example" style = "margin: 30px">
-			<div class="d-flex position-relative">
-				<svg class="bd-placeholder-img flex-shrink-0 me-3" width="144" height="144" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Generic placeholder image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Generic placeholder image</title><rect width="100%" height="100%" fill="#868e96"></rect></svg>
-				<div>
-					<h5 class="mt-0">Custom component with stretched link</h5>
-					<p>This is some placeholder content for the custom component. It is intended to mimic what some real-world content would look like, and we're using it here to give the component a bit of body and size.</p>
-					<a href="#" class="stretched-link">Go somewhere</a>
-				</div>
-			</div>
-		</div>
-		<div class="bd-example" style = "margin: 30px">
-			<div class="d-flex position-relative">
-				<svg class="bd-placeholder-img flex-shrink-0 me-3" width="144" height="144" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Generic placeholder image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Generic placeholder image</title><rect width="100%" height="100%" fill="#868e96"></rect></svg>
-				<div>
-					<h5 class="mt-0">Custom component with stretched link</h5>
-					<p>This is some placeholder content for the custom component. It is intended to mimic what some real-world content would look like, and we're using it here to give the component a bit of body and size.</p>
-					<a href="#" class="stretched-link">Go somewhere</a>
-				</div>
-			</div>
-		</div>
-		<div class="bd-example" style = "margin: 30px">
-			<div class="d-flex position-relative">
-				<svg class="bd-placeholder-img flex-shrink-0 me-3" width="144" height="144" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Generic placeholder image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Generic placeholder image</title><rect width="100%" height="100%" fill="#868e96"></rect></svg>
-				<div>
-					<h5 class="mt-0">Custom component with stretched link</h5>
-					<p>This is some placeholder content for the custom component. It is intended to mimic what some real-world content would look like, and we're using it here to give the component a bit of body and size.</p>
-					<a href="#" class="stretched-link">Go somewhere</a>
-				</div>
-			</div>
-		</div>
-		<div class="bd-example" style = "margin: 30px">
-			<div class="d-flex position-relative">
-				<svg class="bd-placeholder-img flex-shrink-0 me-3" width="144" height="144" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Generic placeholder image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Generic placeholder image</title><rect width="100%" height="100%" fill="#868e96"></rect></svg>
-				<div>
-					<h5 class="mt-0">Custom component with stretched link</h5>
-					<p>This is some placeholder content for the custom component. It is intended to mimic what some real-world content would look like, and we're using it here to give the component a bit of body and size.</p>
-					<a href="#" class="stretched-link">Go somewhere</a>
-				</div>
-			</div>
-		</div>
-		<div class="bd-example" style = "margin: 30px">
-			<div class="d-flex position-relative">
-				<svg class="bd-placeholder-img flex-shrink-0 me-3" width="144" height="144" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Generic placeholder image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Generic placeholder image</title><rect width="100%" height="100%" fill="#868e96"></rect></svg>
-				<div>
-					<h5 class="mt-0">Custom component with stretched link</h5>
-					<p>This is some placeholder content for the custom component. It is intended to mimic what some real-world content would look like, and we're using it here to give the component a bit of body and size.</p>
-					<a href="#" class="stretched-link">Go somewhere</a>
-				</div>
-			</div>
-		</div>
-		<div class="bd-example" style = "margin: 30px">
-			<div class="d-flex position-relative">
-				<svg class="bd-placeholder-img flex-shrink-0 me-3" width="144" height="144" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Generic placeholder image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Generic placeholder image</title><rect width="100%" height="100%" fill="#868e96"></rect></svg>
-				<div>
-					<h5 class="mt-0">Custom component with stretched link</h5>
-					<p>This is some placeholder content for the custom component. It is intended to mimic what some real-world content would look like, and we're using it here to give the component a bit of body and size.</p>
-					<a href="#" class="stretched-link">Go somewhere</a>
-				</div>
-			</div>
-		</div>
-		<div class="bd-example" style = "margin: 30px">
-			<div class="d-flex position-relative">
-				<svg class="bd-placeholder-img flex-shrink-0 me-3" width="144" height="144" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Generic placeholder image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Generic placeholder image</title><rect width="100%" height="100%" fill="#868e96"></rect></svg>
-				<div>
-					<h5 class="mt-0">Custom component with stretched link</h5>
-					<p>This is some placeholder content for the custom component. It is intended to mimic what some real-world content would look like, and we're using it here to give the component a bit of body and size.</p>
-					<a href="#" class="stretched-link">Go somewhere</a>
-				</div>
-			</div>
-		</div>
-		<div class="bd-example" style = "margin: 30px">
-			<div class="d-flex position-relative">
-				<svg class="bd-placeholder-img flex-shrink-0 me-3" width="144" height="144" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Generic placeholder image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Generic placeholder image</title><rect width="100%" height="100%" fill="#868e96"></rect></svg>
-				<div>
-					<h5 class="mt-0">Custom component with stretched link</h5>
-					<p>This is some placeholder content for the custom component. It is intended to mimic what some real-world content would look like, and we're using it here to give the component a bit of body and size.</p>
-					<a href="#" class="stretched-link">Go somewhere</a>
-				</div>
-			</div>
-		</div>
-		<div class="bd-example" style = "margin: 30px">
-			<div class="d-flex position-relative">
-				<svg class="bd-placeholder-img flex-shrink-0 me-3" width="144" height="144" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Generic placeholder image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Generic placeholder image</title><rect width="100%" height="100%" fill="#868e96"></rect></svg>
-				<div>
-					<h5 class="mt-0">Custom component with stretched link</h5>
-					<p>This is some placeholder content for the custom component. It is intended to mimic what some real-world content would look like, and we're using it here to give the component a bit of body and size.</p>
-					<a href="#" class="stretched-link">Go somewhere</a>
-				</div>
-			</div>
-		</div>
-		<div class="bd-example" style = "margin: 30px">
-			<div class="d-flex position-relative">
-				<svg class="bd-placeholder-img flex-shrink-0 me-3" width="144" height="144" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Generic placeholder image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Generic placeholder image</title><rect width="100%" height="100%" fill="#868e96"></rect></svg>
-				<div>
-					<h5 class="mt-0">Custom component with stretched link</h5>
-					<p>This is some placeholder content for the custom component. It is intended to mimic what some real-world content would look like, and we're using it here to give the component a bit of body and size.</p>
-					<a href="#" class="stretched-link">Go somewhere</a>
-				</div>
-			</div>
-		</div>
-		<div class="bd-example" style = "margin: 30px">
-			<div class="d-flex position-relative">
-				<svg class="bd-placeholder-img flex-shrink-0 me-3" width="144" height="144" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Generic placeholder image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Generic placeholder image</title><rect width="100%" height="100%" fill="#868e96"></rect></svg>
-				<div>
-					<h5 class="mt-0">Custom component with stretched link</h5>
-					<p>This is some placeholder content for the custom component. It is intended to mimic what some real-world content would look like, and we're using it here to give the component a bit of body and size.</p>
-					<a href="#" class="stretched-link">Go somewhere</a>
-				</div>
-			</div>
-		</div>
-		<div class="bd-example" style = "margin: 30px">
-			<div class="d-flex position-relative">
-				<svg class="bd-placeholder-img flex-shrink-0 me-3" width="144" height="144" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Generic placeholder image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Generic placeholder image</title><rect width="100%" height="100%" fill="#868e96"></rect></svg>
-				<div>
-					<h5 class="mt-0">Custom component with stretched link</h5>
-					<p>This is some placeholder content for the custom component. It is intended to mimic what some real-world content would look like, and we're using it here to give the component a bit of body and size.</p>
-					<a href="#" class="stretched-link">Go somewhere</a>
-				</div>
-			</div>
-		</div>
-		<div class="bd-example" style = "margin: 30px">
-			<div class="d-flex position-relative">
-				<svg class="bd-placeholder-img flex-shrink-0 me-3" width="144" height="144" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Generic placeholder image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Generic placeholder image</title><rect width="100%" height="100%" fill="#868e96"></rect></svg>
-				<div>
-					<h5 class="mt-0">Custom component with stretched link</h5>
-					<p>This is some placeholder content for the custom component. It is intended to mimic what some real-world content would look like, and we're using it here to give the component a bit of body and size.</p>
-					<a href="#" class="stretched-link">Go somewhere</a>
-				</div>
-			</div>
-		</div>
-		<div class="bd-example" style = "margin: 30px">
-			<div class="d-flex position-relative">
-				<svg class="bd-placeholder-img flex-shrink-0 me-3" width="144" height="144" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Generic placeholder image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Generic placeholder image</title><rect width="100%" height="100%" fill="#868e96"></rect></svg>
-				<div>
-					<h5 class="mt-0">Custom component with stretched link</h5>
-					<p>This is some placeholder content for the custom component. It is intended to mimic what some real-world content would look like, and we're using it here to give the component a bit of body and size.</p>
-					<a href="#" class="stretched-link">Go somewhere</a>
-				</div>
-			</div>
-		</div>
-		<ul class="pagination">
-			<li class="page-item"><a class="page-link" href="#">Previous</a></li>
-			<li class="page-item"><a class="page-link" href="#">1</a></li>
-			<li class="page-item"><a class="page-link" href="#">2</a></li>
-			<li class="page-item"><a class="page-link" href="#">3</a></li>
-			<li class="page-item"><a class="page-link" href="#">Next</a></li>
-		</ul>
+		{% endfor %}
+
+		{% if paginate.has_prev %}
+			<a href="/popular/?page={{ paginate.prev_num }}&sort={{ sort }}">上一页</a>
+		{% endif %}
+		页码：
+		{% for i in paginate.iter_pages() %}
+			{% if i != paginate.page and i %}
+				<a href="/popular/?page={{ i }}&sort={{ sort }}">{{ i }}</a>
+			{% elif i == paginate.page %}
+				<strong>{{ i }}</strong>
+			{% else %}
+				<span>...</span>
+			{% endif %}
+		{% endfor %}
+		{% if paginate.has_next %}
+			<a href="/popular/?page={{ paginate.next_num }}&sort={{ sort }}">下一页</a>
+		{% endif %}
 	</div>
 {% endblock %}

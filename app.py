@@ -8,7 +8,7 @@ from exts import db
 from models import BangumiType2, BangumiEp, BgmCrtCv, BgmCharacter, BgmPersonCv
 import sys
 import io
-
+import random
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf8')  # 改变标准输出的默认编码
 app = Flask(__name__)
 app.config.from_object(config)
@@ -23,34 +23,41 @@ def query():
     else:
         ame = BangumiType2.query.filter(BangumiType2.name_cn.like('%' + anime_name + '%')).all()
         ame.sort(key=lambda x: x.rating_total, reverse=True)
-        print(ame[0].name_cn)
         return render_template("query.html", queryname=anime_name, ame=ame)
 
 
 @app.route("/index")
 def index():
-    return render_template("index.html")
+    random_list = []
+    for i in range(9):
+        random_num = random.randint(1, 1000)
+        random_list.append(BangumiType2.query.order_by(BangumiType2.rating_total.desc()).offset(random_num).first())
+    return render_template("index.html", ame=random_list)
 
 
 @app.route("/popular/")
 def popular():
     sort = request.args.get('sort')
     page = request.args.get('page')
-    if sort is None:
-        sort = 'rating_score'
-    if page is None:
+    if sort == "" or sort is None:
+        sort = 'rating_total'
+    if page == "" or page is None:
         page = 1
     else:
         page = int(page)
-    if sort == 'rating_score':
-        ame = BangumiType2.query.order_by(BangumiType2.rating_score.desc()).paginate(page, 20, False)
-    elif sort == 'rating_total':
-        ame = BangumiType2.query.order_by(BangumiType2.rating_total.desc()).paginate(page, 20, False)
-    elif sort == 'begin':
-        ame = BangumiType2.query.order_by(BangumiType2.begin.desc()).paginate(page, 20, False)
-    else:
-        ame = BangumiType2.query.order_by(BangumiType2.begin.desc()).paginate(page, 20, False)
-    return render_template("popular.html", ame=ame, sort=sort)
+    if sort == 'rating_total':
+        pagi = BangumiType2.query.order_by(BangumiType2.rating_total.desc()).paginate(page = page, per_page=15, error_out=False)
+        ame = pagi.items
+        return render_template("popular.html", ame=ame, sort=sort, paginate=pagi)
+    elif sort == 'begintime':
+        pagi = BangumiType2.query.order_by(BangumiType2.begin.desc()).paginate(page = page, per_page=15, error_out=False)
+        ame = pagi.items
+        return render_template("popular.html", ame=ame, sort=sort, paginate=pagi)
+    elif sort == 'alpha':
+        pagi = BangumiType2.query.order_by(BangumiType2.name).paginate(page = page, per_page=15, error_out=False)
+        ame = pagi.items
+        return render_template("popular.html", ame=ame, sort=sort, paginate=pagi)
+    return render_template("popular.html")
 
 
 @app.route("/anime/<int:id>")

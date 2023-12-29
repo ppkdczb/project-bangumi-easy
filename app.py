@@ -18,14 +18,13 @@ db.init_app(app)
 @app.route("/query/")
 def query():
     anime_name = request.args.get('anime_name')
-    print(anime_name)
-    if anime_name is None:
-        return render_template("index.html")
+    if anime_name == "":
+        return redirect(url_for('index'))
     else:
         ame = BangumiType2.query.filter(BangumiType2.name_cn.like('%' + anime_name + '%')).all()
         ame.sort(key=lambda x: x.rating_total, reverse=True)
         print(ame[0].name_cn)
-        return render_template("query.html",queryname=anime_name, ame=ame)
+        return render_template("query.html", queryname=anime_name, ame=ame)
 
 
 @app.route("/index")
@@ -33,9 +32,25 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/popular")
+@app.route("/popular/")
 def popular():
-    return render_template("popular.html")
+    sort = request.args.get('sort')
+    page = request.args.get('page')
+    if sort is None:
+        sort = 'rating_score'
+    if page is None:
+        page = 1
+    else:
+        page = int(page)
+    if sort == 'rating_score':
+        ame = BangumiType2.query.order_by(BangumiType2.rating_score.desc()).paginate(page, 20, False)
+    elif sort == 'rating_total':
+        ame = BangumiType2.query.order_by(BangumiType2.rating_total.desc()).paginate(page, 20, False)
+    elif sort == 'begin':
+        ame = BangumiType2.query.order_by(BangumiType2.begin.desc()).paginate(page, 20, False)
+    else:
+        ame = BangumiType2.query.order_by(BangumiType2.begin.desc()).paginate(page, 20, False)
+    return render_template("popular.html", ame=ame, sort=sort)
 
 
 @app.route("/anime/<int:id>")

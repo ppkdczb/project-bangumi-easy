@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask.views import MethodView
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from sqlalchemy import text
@@ -14,18 +15,17 @@ app.config.from_object(config)
 db.init_app(app)
 
 
-@app.route('/query/<int:bangumi_id>')
-def query(bangumi_id):
-    rs = BangumiType2.query.filter_by(bangumi_id=bangumi_id)
-    for r in rs:
-        print(r.name_cn)
-    return 'ok'
-
-
-class User:
-    def __init__(self, username, password):
-        self.username = username
-        self.password = password
+@app.route("/query/")
+def query():
+    anime_name = request.args.get('anime_name')
+    print(anime_name)
+    if anime_name is None:
+        return render_template("index.html")
+    else:
+        ame = BangumiType2.query.filter(BangumiType2.name_cn.like('%' + anime_name + '%')).all()
+        ame.sort(key=lambda x: x.rating_total, reverse=True)
+        print(ame[0].name_cn)
+        return render_template("query.html",queryname=anime_name, ame=ame)
 
 
 @app.route("/index")
@@ -41,14 +41,15 @@ def popular():
 @app.route("/anime/<int:id>")
 def anime(id):
     info = BangumiType2.query.filter_by(bangumi_id=id).first()
-    sql = text("SELECT * FROM bgm_character WHERE bgm_character.character_id in (SELECT DISTINCT character_id FROM `bgm-crt-cv` WHERE bangumi_id = %d)" % id )
+    sql = text(
+        "SELECT * FROM bgm_character WHERE bgm_character.character_id in (SELECT DISTINCT character_id FROM `bgm-crt-cv` WHERE bangumi_id = %d)" % id)
     conn = db.engine.connect()
     rs = conn.execute(sql)
     characters = []
     for r in rs:
         characters.append(r)
     print(characters)
-    return render_template("detail.html", info=info, characters=characters, len = min(len(characters), 8))
+    return render_template("detail.html", info=info, characters=characters, len=min(len(characters), 8))
 
 
 @app.route("/login")

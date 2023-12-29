@@ -48,7 +48,7 @@ def anime(id):
     for r in rs:
         characters.append(r)
     print(characters)
-    return render_template("detail.html", info=info, characters=characters, len = min(len(characters), 5))
+    return render_template("detail.html", info=info, characters=characters, len = min(len(characters), 8))
 
 
 @app.route("/login")

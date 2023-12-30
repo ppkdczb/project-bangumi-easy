@@ -1,6 +1,9 @@
 # coding: utf-8
 from flask_sqlalchemy import SQLAlchemy
 from exts import db
+from sqlalchemy import Integer, String
+from sqlalchemy.orm import mapped_column
+
 
 class BangumiType2(db.Model):
     __tablename__ = 'bangumi__type2'
@@ -10,14 +13,21 @@ class BangumiType2(db.Model):
 
     bangumi_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255, 'utf8mb4_unicode_ci'), nullable=False)
-    name_cn = db.Column(db.String(255, 'utf8mb4_unicode_ci'), nullable=False, server_default=db.FetchedValue())
-    image = db.Column(db.String(255, 'utf8mb4_unicode_ci'), nullable=False, server_default=db.FetchedValue())
-    officialSite = db.Column(db.String(255, 'utf8mb4_unicode_ci'), nullable=False)
-    begin = db.Column(db.Date, nullable=False, index=True, server_default=db.FetchedValue())
-    rating_total = db.Column(db.SmallInteger, nullable=False, server_default=db.FetchedValue())
-    rating_score = db.Column(db.Numeric(4, 2), nullable=False, server_default=db.FetchedValue())
+    name_cn = db.Column(db.String(255, 'utf8mb4_unicode_ci'),
+                        nullable=False, server_default=db.FetchedValue())
+    image = db.Column(db.String(255, 'utf8mb4_unicode_ci'),
+                      nullable=False, server_default=db.FetchedValue())
+    officialSite = db.Column(
+        db.String(255, 'utf8mb4_unicode_ci'), nullable=False)
+    begin = db.Column(db.Date, nullable=False, index=True,
+                      server_default=db.FetchedValue())
+    rating_total = db.Column(
+        db.SmallInteger, nullable=False, server_default=db.FetchedValue())
+    rating_score = db.Column(db.Numeric(
+        4, 2), nullable=False, server_default=db.FetchedValue())
     info = db.Column(db.Text(collation='utf8mb4_unicode_ci'), nullable=False)
-    summary = db.Column(db.Text(collation='utf8mb4_unicode_ci'), nullable=False)
+    summary = db.Column(
+        db.Text(collation='utf8mb4_unicode_ci'), nullable=False)
 
 
 class BangumiEp(db.Model):
@@ -58,8 +68,10 @@ class BgmCharacter(db.Model):
 
     character_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50, 'utf8mb4_unicode_ci'), nullable=False)
-    name_cn = db.Column(db.String(50, 'utf8mb4_unicode_ci'), nullable=False, server_default=db.FetchedValue())
-    cover = db.Column(db.String(255, 'utf8mb4_unicode_ci'), nullable=False, server_default=db.FetchedValue())
+    name_cn = db.Column(db.String(50, 'utf8mb4_unicode_ci'),
+                        nullable=False, server_default=db.FetchedValue())
+    cover = db.Column(db.String(255, 'utf8mb4_unicode_ci'),
+                      nullable=False, server_default=db.FetchedValue())
     info = db.Column(db.Text(collation='utf8mb4_unicode_ci'), nullable=False)
     detail = db.Column(db.Text(collation='utf8mb4_unicode_ci'), nullable=False)
 
@@ -69,12 +81,12 @@ class BgmPersonCv(db.Model):
 
     person_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255, 'utf8mb4_unicode_ci'), nullable=False)
-    name_cn = db.Column(db.String(255, 'utf8mb4_unicode_ci'), nullable=False, server_default=db.FetchedValue())
-    cover = db.Column(db.String(255, 'utf8mb4_unicode_ci'), nullable=False, server_default=db.FetchedValue())
+    name_cn = db.Column(db.String(255, 'utf8mb4_unicode_ci'),
+                        nullable=False, server_default=db.FetchedValue())
+    cover = db.Column(db.String(255, 'utf8mb4_unicode_ci'),
+                      nullable=False, server_default=db.FetchedValue())
     info = db.Column(db.Text(collation='utf8mb4_unicode_ci'), nullable=False)
     detail = db.Column(db.Text(collation='utf8mb4_unicode_ci'), nullable=False)
-
-
 
 
 class BgmArticle(db.Model):
@@ -85,13 +97,11 @@ class BgmArticle(db.Model):
     article_intro = db.Column(db.Text, nullable=False)
     article_text = db.Column(db.Text, nullable=False)
     article_date = db.Column(db.DateTime, nullable=False)
-    article_user_id = db.Column(db.ForeignKey('bgm_user.user_id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False, index=True)
+    article_user_id = db.Column(db.ForeignKey(
+        'bgm_user.user_id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False, index=True)
 
-    article_user = db.relationship('BgmUser', primaryjoin='BgmArticle.article_user_id == BgmUser.user_id', backref='bgm_articles')
-
-
-
-
+    article_user = db.relationship(
+        'BgmUser', primaryjoin='BgmArticle.article_user_id == BgmUser.user_id', backref='bgm_articles')
 
 
 class BgmComment(db.Model):
@@ -100,15 +110,15 @@ class BgmComment(db.Model):
     comment_id = db.Column(db.Integer, primary_key=True)
     comment_date = db.Column(db.DateTime, nullable=False)
     comment_text = db.Column(db.Text, nullable=False)
-    comment_user_id = db.Column(db.ForeignKey('bgm_user.user_id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False, index=True)
-    comment_article_id = db.Column(db.ForeignKey('bgm_article.article_id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False, index=True)
+    comment_user_id = db.Column(db.ForeignKey(
+        'bgm_user.user_id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False, index=True)
+    comment_article_id = db.Column(db.ForeignKey(
+        'bgm_article.article_id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False, index=True)
 
-    comment_article = db.relationship('BgmArticle', primaryjoin='BgmComment.comment_article_id == BgmArticle.article_id', backref='bgm_comments')
-    comment_user = db.relationship('BgmUser', primaryjoin='BgmComment.comment_user_id == BgmUser.user_id', backref='bgm_comments')
-
-
-
-
+    comment_article = db.relationship(
+        'BgmArticle', primaryjoin='BgmComment.comment_article_id == BgmArticle.article_id', backref='bgm_comments')
+    comment_user = db.relationship(
+        'BgmUser', primaryjoin='BgmComment.comment_user_id == BgmUser.user_id', backref='bgm_comments')
 
 
 class BgmUser(db.Model):
@@ -117,4 +127,5 @@ class BgmUser(db.Model):
     user_id = db.Column(db.Integer, primary_key=True)
     user_address = db.Column(db.String(255), nullable=False)
     user_name = db.Column(db.String(255), nullable=False)
-    user_password = db.Column(db.String(255, 'utf8mb3_general_ci'), nullable=False)
+    user_password = db.Column(
+        db.String(255, 'utf8mb3_general_ci'), nullable=False)

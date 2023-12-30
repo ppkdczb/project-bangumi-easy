@@ -9,7 +9,10 @@ from models import BangumiType2, BangumiEp, BgmCrtCv, BgmCharacter, BgmComment, 
 import sys
 import io
 import random
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf8')  # 改变标准输出的默认编码
+from werkzeug.security import generate_password_hash, check_password_hash
+
+sys.stdout = io.TextIOWrapper(
+    sys.stdout.buffer, encoding='utf8')  # 改变标准输出的默认编码
 app = Flask(__name__)
 app.config.from_object(config)
 db.init_app(app)
@@ -26,16 +29,19 @@ def query():
     if anime_name == "" or anime_name is None:
         return redirect(url_for('index'))
     else:
-        pagi = BangumiType2.query.filter(BangumiType2.name_cn.like('%' + anime_name + '%')).paginate(page=page, per_page=15, error_out=False)
+        pagi = BangumiType2.query.filter(BangumiType2.name_cn.like(
+            '%' + anime_name + '%')).paginate(page=page, per_page=15, error_out=False)
         ame = pagi.items
         return render_template("query.html", ame=ame, paginate=pagi, anime_name=anime_name)
+
 
 @app.route("/index")
 def index():
     random_list = []
     for i in range(9):
         random_num = random.randint(1, 1000)
-        random_list.append(BangumiType2.query.order_by(BangumiType2.rating_total.desc()).offset(random_num).first())
+        random_list.append(BangumiType2.query.order_by(
+            BangumiType2.rating_total.desc()).offset(random_num).first())
     return render_template("index.html", ame=random_list)
 
 
@@ -50,15 +56,18 @@ def popular():
     else:
         page = int(page)
     if sort == 'rating_total':
-        pagi = BangumiType2.query.order_by(BangumiType2.rating_total.desc()).paginate(page = page, per_page=15, error_out=False)
+        pagi = BangumiType2.query.order_by(BangumiType2.rating_total.desc()).paginate(
+            page=page, per_page=15, error_out=False)
         ame = pagi.items
         return render_template("popular.html", ame=ame, sort=sort, paginate=pagi)
     elif sort == 'begintime':
-        pagi = BangumiType2.query.order_by(BangumiType2.begin.desc()).paginate(page = page, per_page=15, error_out=False)
+        pagi = BangumiType2.query.order_by(BangumiType2.begin.desc()).paginate(
+            page=page, per_page=15, error_out=False)
         ame = pagi.items
         return render_template("popular.html", ame=ame, sort=sort, paginate=pagi)
     elif sort == 'alpha':
-        pagi = BangumiType2.query.order_by(BangumiType2.name).paginate(page = page, per_page=15, error_out=False)
+        pagi = BangumiType2.query.order_by(BangumiType2.name).paginate(
+            page=page, per_page=15, error_out=False)
         ame = pagi.items
         return render_template("popular.html", ame=ame, sort=sort, paginate=pagi)
     return render_template("popular.html")
@@ -78,13 +87,48 @@ def anime(id):
     return render_template("detail.html", info=info, characters=characters, len=min(len(characters), 8))
 
 
-@app.route("/login")
+@app.route("/login", methods=["GET", "POST"])
 def login():
+    if request.method == "POST":
+        form = request.form
+        user_name = form.get('user_name')
+        user_password = form.get('user_password')
+
+        user = BgmUser.query.filter_by(user_name=user_name).first()
+
+        if user and check_password_hash(user.user_password, user_password):
+            flash('登录成功！', 'success')
+            return redirect(url_for('index'))
+        else:
+            flash('用户名或密码不正确。', 'danger')
     return render_template("login.html")
 
 
-@app.route("/register")
+@app.route("/register", methods=["GET", "POST"])
 def register():
+    if request.method == "POST":
+        form = request.form
+        user_name = form.get('user_name')
+        user_password = form.get('user_password')
+        user_address = form.get('user_address')
+
+        existing_user = BgmUser.query.filter_by(user_name=user_name).first()
+
+        if existing_user:
+            flash('用户已存在，请登录。', 'info')
+            return redirect(url_for('login'))
+
+        hashed_password = generate_password_hash(
+            user_password, method='sha256')
+        new_user = BgmUser(
+            user_name=user_name, user_password=hashed_password, user_address=user_address)
+        db.session.add(new_user)
+        db.session.commit()
+
+        flash('注册成功，请登录。', 'success')
+        return redirect(url_for('login'))
+
+    # 如果是 GET,返回 register 模板
     return render_template("register.html")
 
 
@@ -109,4 +153,4 @@ def test():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(port=5500)

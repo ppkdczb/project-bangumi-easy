@@ -73,3 +73,48 @@ class BgmPersonCv(db.Model):
     cover = db.Column(db.String(255, 'utf8mb4_unicode_ci'), nullable=False, server_default=db.FetchedValue())
     info = db.Column(db.Text(collation='utf8mb4_unicode_ci'), nullable=False)
     detail = db.Column(db.Text(collation='utf8mb4_unicode_ci'), nullable=False)
+
+
+
+
+class BgmArticle(db.Model):
+    __tablename__ = 'bgm_article'
+
+    article_id = db.Column(db.Integer, primary_key=True)
+    article_title = db.Column(db.Text, nullable=False)
+    article_intro = db.Column(db.Text, nullable=False)
+    article_text = db.Column(db.Text, nullable=False)
+    article_date = db.Column(db.DateTime, nullable=False)
+    article_user_id = db.Column(db.ForeignKey('bgm_user.user_id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False, index=True)
+
+    article_user = db.relationship('BgmUser', primaryjoin='BgmArticle.article_user_id == BgmUser.user_id', backref='bgm_articles')
+
+
+
+
+
+
+class BgmComment(db.Model):
+    __tablename__ = 'bgm_comment'
+
+    comment_id = db.Column(db.Integer, primary_key=True)
+    comment_date = db.Column(db.DateTime, nullable=False)
+    comment_text = db.Column(db.Text, nullable=False)
+    comment_user_id = db.Column(db.ForeignKey('bgm_user.user_id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False, index=True)
+    comment_article_id = db.Column(db.ForeignKey('bgm_article.article_id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False, index=True)
+
+    comment_article = db.relationship('BgmArticle', primaryjoin='BgmComment.comment_article_id == BgmArticle.article_id', backref='bgm_comments')
+    comment_user = db.relationship('BgmUser', primaryjoin='BgmComment.comment_user_id == BgmUser.user_id', backref='bgm_comments')
+
+
+
+
+
+
+class BgmUser(db.Model):
+    __tablename__ = 'bgm_user'
+
+    user_id = db.Column(db.Integer, primary_key=True)
+    user_address = db.Column(db.String(255), nullable=False)
+    user_name = db.Column(db.String(255), nullable=False)
+    user_password = db.Column(db.String(255, 'utf8mb3_general_ci'), nullable=False)

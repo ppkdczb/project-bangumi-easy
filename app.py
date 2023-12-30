@@ -5,7 +5,7 @@ from datetime import datetime
 from sqlalchemy import text
 import config
 from exts import db
-from models import BangumiType2, BangumiEp, BgmCrtCv, BgmCharacter, BgmPersonCv
+from models import BangumiType2, BangumiEp, BgmCrtCv, BgmCharacter, BgmComment, BgmPersonCv, BgmArticle, BgmUser
 import sys
 import io
 import random

@@ -123,6 +123,7 @@ def register():
 
         hashed_password = generate_password_hash(
             user_password, method='sha256')
+        print("tes")
         new_user = BgmUser(
             user_name=user_name, user_password=hashed_password, user_address=user_address)
         db.session.add(new_user)

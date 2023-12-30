@@ -124,7 +124,7 @@ class BgmComment(db.Model):
 class BgmUser(db.Model):
     __tablename__ = 'bgm_user'
 
-    user_id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_address = db.Column(db.String(255), nullable=False)
     user_name = db.Column(db.String(255), nullable=False)
     user_password = db.Column(

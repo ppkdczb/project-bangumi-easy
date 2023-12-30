@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask.views import MethodView
 from flask_sqlalchemy import SQLAlchemy
@@ -11,13 +13,13 @@ import io
 import random
 from werkzeug.security import generate_password_hash, check_password_hash
 
+
 sys.stdout = io.TextIOWrapper(
     sys.stdout.buffer, encoding='utf8')  # 改变标准输出的默认编码
 app = Flask(__name__)
 app.config.from_object(config)
 db.init_app(app)
-
-
+app.secret_key='kdjklfjkd87384hjdhjh'
 @app.route("/query/")
 def query():
     page = request.args.get('page')
@@ -93,9 +95,8 @@ def login():
         form = request.form
         user_name = form.get('user_name')
         user_password = form.get('user_password')
-
+        print(user_name)
         user = BgmUser.query.filter_by(user_name=user_name).first()
-
         if user and check_password_hash(user.user_password, user_password):
             flash('登录成功！', 'success')
             return redirect(url_for('index'))
@@ -111,7 +112,9 @@ def register():
         user_name = form.get('user_name')
         user_password = form.get('user_password')
         user_address = form.get('user_address')
-
+        print(user_name)
+        print(user_password)
+        print(user_address)
         existing_user = BgmUser.query.filter_by(user_name=user_name).first()
 
         if existing_user:

@@ -28,17 +28,17 @@
 
 {% block body %}
 <div class = "loginin">
-	<main class="form-signin w-62 m-400 c2">
-  <form>
+	<main class="container form-signin w-62 m-400 c2">
+  <form method="post">
     <h1 class="h3 mb-3 fw-normal c1">请登录至 Anime</h1>
 
     <div class="form-floating">
-      <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-      <label for="floatingInput">Email address</label>
+      <input type="text" class="form-control" name="user_name" placeholder="ppkdczb">
+      <label for="floatingInput">Username</label>
     </div>
 	  <br>
     <div class="form-floating">
-      <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+      <input type="password" class="form-control" name="user_password" placeholder="Password">
       <label for="floatingPassword">Password</label>
     </div>
 	  <br><br>

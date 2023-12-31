@@ -42,12 +42,21 @@
 				<button class="btn btn-outline-success" type="submit">search</button>
 			</form>
 			<ul class="navbar-nav">
+				{% if g.user %}
+				<li class="nav-item">
+					<a class="nav-link" href="#">{{ g.user.user_name }}</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/logout">登出</a>
+				</li>
+				{% else %}
 				<li class="nav-item">
 					<a class="nav-link active" aria-current="page" href="/login">登录</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="/register">注册</a>
 				</li>
+				{% endif %}
 			</ul>
 		</div>
 	</div>

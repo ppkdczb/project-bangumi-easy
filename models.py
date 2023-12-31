@@ -92,7 +92,7 @@ class BgmPersonCv(db.Model):
 class BgmArticle(db.Model):
     __tablename__ = 'bgm_article'
 
-    article_id = db.Column(db.Integer, primary_key=True)
+    article_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     article_title = db.Column(db.Text, nullable=False)
     article_intro = db.Column(db.Text, nullable=False)
     article_text = db.Column(db.Text, nullable=False)
@@ -107,7 +107,7 @@ class BgmArticle(db.Model):
 class BgmComment(db.Model):
     __tablename__ = 'bgm_comment'
 
-    comment_id = db.Column(db.Integer, primary_key=True)
+    comment_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     comment_date = db.Column(db.DateTime, nullable=False)
     comment_text = db.Column(db.Text, nullable=False)
     comment_user_id = db.Column(db.ForeignKey(

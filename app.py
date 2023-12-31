@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash, g
 from flask.views import MethodView
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
@@ -46,7 +46,19 @@ def index():
             BangumiType2.rating_total.desc()).offset(random_num).first())
     return render_template("index.html", ame=random_list)
 
+class User:
+    def __init__(self, user_name, user_id):
+        self.user_name = user_name
+        self.id = user_id
 
+
+@app.before_request
+def before_request():
+    user_name = session.get('user_name')
+    if user_name:
+        g.user = User(user_name, session.get('user_id'))
+    else:
+        g.user = None
 @app.route("/popular/")
 def popular():
     sort = request.args.get('sort')
@@ -95,15 +107,26 @@ def login():
         form = request.form
         user_name = form.get('user_name')
         user_password = form.get('user_password')
-        print(user_name)
+        print(user_password)
+        print("here")
+        session.pop('user_name', None)
+        session.pop('user_id', None)
         user = BgmUser.query.filter_by(user_name=user_name).first()
-        if user and check_password_hash(user.user_password, user_password):
+        if user and user.user_password == user_password:
             flash('登录成功！', 'success')
+            session['user_name'] = user_name
+            session['user_id'] = user.user_id
             return redirect(url_for('index'))
         else:
             flash('用户名或密码不正确。', 'danger')
     return render_template("login.html")
 
+
+@app.route("/logout")
+def logout():
+    session.pop('user_name', None)
+    session.pop('user_id', None)
+    return redirect(url_for('index'))
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -121,11 +144,10 @@ def register():
             flash('用户已存在，请登录。', 'info')
             return redirect(url_for('login'))
 
-        hashed_password = generate_password_hash(
-            user_password, method='sha256')
-        print("tes")
+       # hashed_password = generate_password_hash(
+        #    user_password, method='sha256')
         new_user = BgmUser(
-            user_name=user_name, user_password=hashed_password, user_address=user_address)
+            user_name=user_name, user_password=user_password, user_address=user_address)
         db.session.add(new_user)
         db.session.commit()
 

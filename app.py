@@ -168,9 +168,14 @@ def topic(id):
     return render_template("topic.html", id=id)
 
 
-@app.route("/discuss")
-def discuss():
-    return render_template("discuss.html")
+@app.route("/discuss/<int:id>")
+def discuss(id):
+    page = id
+    pagi = BgmArticle.query.order_by(BgmArticle.article_date.desc()).paginate(
+        page=page, per_page=15, error_out=False)
+    dis = pagi.items
+    print("YES")
+    return render_template("discuss.html", dis=dis, paginate=pagi)
 
 
 @app.route("/test")

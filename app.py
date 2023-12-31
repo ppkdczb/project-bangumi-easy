@@ -45,8 +45,8 @@ def index():
         random_num = random.randint(1, 1000)
         random_list.append(BangumiType2.query.order_by(
             BangumiType2.rating_total.desc()).offset(random_num).first())
-    return render_template("index.html", ame=random_list)
-
+    art = BgmArticle.query.order_by(BgmArticle.article_date.desc()).limit(5)
+    return render_template("index.html", ame=random_list, art=art)
 
 class User:
     def __init__(self, user_name, user_id):
@@ -194,8 +194,6 @@ def topic(id):
         return render_template("topic.html", id=id, art=art, comments=comment, name=name, users=users,
                                num_comment=len(comment))
 
-
-# 出现bug 找到的user_name 不一样
 
 @app.route("/discuss/<int:id>")
 def discuss(id):

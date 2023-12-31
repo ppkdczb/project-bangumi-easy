@@ -108,34 +108,14 @@
 			</div>
 			<div class = "col-sm-3">
 				<h2>最新讨论</h2>
-				<a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
+				{% for item in art %}
+					<a href="/discuss/{{ item.article_id }}" class="list-group-item list-group-item-action py-3 lh-sm">
 					<div class="d-flex w-100 align-items-center justify-content-between">
-						<strong class="mb-1">List group item heading</strong>
+						<strong class="mb-1">{{ item.article_title }}</strong>
 					</div>
-					<div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
 				</a>
-				<a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
-					<div class="d-flex w-100 align-items-center justify-content-between">
-						<strong class="mb-1">List group item heading</strong>
-					</div>
-					<div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-				</a>
-
-				<a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
-					<div class="d-flex w-100 align-items-center justify-content-between">
-						<strong class="mb-1">List group item heading</strong>
-					</div>
-					<div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-				</a>
-
-				<a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
-					<div class="d-flex w-100 align-items-center justify-content-between">
-						<strong class="mb-1">List group item heading</strong>
-					</div>
-					<div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-				</a>
-				<small><a href = "#">更多</a></small>
-				<small><a  href = "#">添加新讨论</a></small>
+				{% endfor %}
+				<small><a href = "/discuss/1">更多</a></small>
 			</div>
 		</div>
 	</div>

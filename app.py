@@ -13,13 +13,14 @@ import io
 import random
 from werkzeug.security import generate_password_hash, check_password_hash
 
-
 sys.stdout = io.TextIOWrapper(
     sys.stdout.buffer, encoding='utf8')  # 改变标准输出的默认编码
 app = Flask(__name__)
 app.config.from_object(config)
 db.init_app(app)
-app.secret_key='kdjklfjkd87384hjdhjh'
+app.secret_key = 'kdjklfjkd87384hjdhjh'
+
+
 @app.route("/query/")
 def query():
     page = request.args.get('page')
@@ -46,6 +47,7 @@ def index():
             BangumiType2.rating_total.desc()).offset(random_num).first())
     return render_template("index.html", ame=random_list)
 
+
 class User:
     def __init__(self, user_name, user_id):
         self.user_name = user_name
@@ -59,6 +61,8 @@ def before_request():
         g.user = User(user_name, session.get('user_id'))
     else:
         g.user = None
+
+
 @app.route("/popular/")
 def popular():
     sort = request.args.get('sort')
@@ -97,7 +101,6 @@ def anime(id):
     characters = []
     for r in rs:
         characters.append(r)
-    print(characters)
     return render_template("detail.html", info=info, characters=characters, len=min(len(characters), 8))
 
 
@@ -128,6 +131,7 @@ def logout():
     session.pop('user_id', None)
     return redirect(url_for('index'))
 
+
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
@@ -144,7 +148,7 @@ def register():
             flash('用户已存在，请登录。', 'info')
             return redirect(url_for('login'))
 
-       # hashed_password = generate_password_hash(
+        # hashed_password = generate_password_hash(
         #    user_password, method='sha256')
         new_user = BgmUser(
             user_name=user_name, user_password=user_password, user_address=user_address)
@@ -163,10 +167,35 @@ def error():
     return render_template("error.html")
 
 
-@app.route("/topic/<int:id>")
+@app.route("/topic/<int:id>", methods=["POST", "GET"])
 def topic(id):
-    return render_template("topic.html", id=id)
+    if request.method == "POST":
+        form = request.form
+        comment_text = form.get('comment')
+        if comment_text == "":
+            return redirect(url_for('topic', id=id))
+        comment_date = datetime.now()
+        comment_user_id = session.get('user_id')
+        comment_article_id = id
+        new_comment = BgmComment(comment_text=comment_text, comment_date=comment_date,
+                                 comment_user_id=comment_user_id, comment_article_id=comment_article_id)
+        db.session.add(new_comment)
+        db.session.commit()
+        return redirect(url_for('topic', id=id))
+    else:
+        art = BgmArticle.query.filter_by(article_id=id).first()
+        comment = BgmComment.query.filter_by(comment_article_id=id).all()
+        name = BgmUser.query.filter_by(user_id=art.article_user_id).first()
+        users = []
+        for i in range(len(comment)):
+            users.append(BgmUser.query.filter_by(
+                user_id=comment[i].comment_user_id).first().user_name)
 
+        return render_template("topic.html", id=id, art=art, comments=comment, name=name, users=users,
+                               num_comment=len(comment))
+
+
+# 出现bug 找到的user_name 不一样
 
 @app.route("/discuss/<int:id>")
 def discuss(id):

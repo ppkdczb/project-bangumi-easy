@@ -12,11 +12,14 @@ import sys
 import io
 import random
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_wtf.csrf import CSRFProtect
 
 sys.stdout = io.TextIOWrapper(
     sys.stdout.buffer, encoding='utf8')  # 改变标准输出的默认编码
 app = Flask(__name__)
 app.config.from_object(config)
+app.config['SECRET_KEY'] = 'test'
+
 db.init_app(app)
 app.secret_key = 'kdjklfjkd87384hjdhjh'
 
@@ -95,7 +98,8 @@ def popular():
 def anime(id):
     info = BangumiType2.query.filter_by(bangumi_id=id).first()
     sql = text(
-        "SELECT * FROM bgm_character WHERE bgm_character.character_id in (SELECT DISTINCT character_id FROM `bgm-crt-cv` WHERE bangumi_id = %d)" % id)
+        "SELECT * FROM bgm_character WHERE bgm_character.character_id in (SELECT DISTINCT character_id FROM "
+        "`bgm-crt-cv` WHERE bangumi_id = %d)" % id)
     conn = db.engine.connect()
     rs = conn.execute(sql)
     characters = []
@@ -211,4 +215,4 @@ def test():
 
 
 if __name__ == '__main__':
-    app.run(port=5500)
+    app.run(host="0.0.0.0", port=5500, debug=True)

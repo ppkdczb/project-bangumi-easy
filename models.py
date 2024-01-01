@@ -112,7 +112,7 @@ class BgmArticle(db.Model):
         'BgmUser', primaryjoin='BgmArticle.article_user_id == BgmUser.user_id', backref='bgm_articles')
     # 关联到番剧
     article_anime = db.relationship(
-        'BgmShow', primaryjoin='BgmArticle.article_anime_id == BgmShow.bangumi_id', backref='bgm_articles')
+        'BangumiType2', primaryjoin='BgmArticle.article_anime_id == BangumiType2.bangumi_id', backref='bgm_articles')
 
 # 评论表
 
@@ -131,7 +131,7 @@ class BgmComment(db.Model):
     comment_article = db.relationship(
         'BgmArticle', primaryjoin='BgmComment.comment_article_id == BgmArticle.article_id', backref='bgm_comments')
     comment_user = db.relationship(
-        'BgmUser', primaryjoin='BgmComment.comment_user_id == BangumiType2.user_id', backref='bgm_comments')
+        'BgmUser', primaryjoin='BgmComment.comment_user_id == BgmUser.user_id', backref='bgm_comments')
 
 
 # 用户表

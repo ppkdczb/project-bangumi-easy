@@ -125,6 +125,7 @@ def anime(id):
     return render_template("detail.html", info=info, characters=characters, animeDiscuss=animeDiscuss, len=min(len(characters), 8))
 
 
+# 登录
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -146,6 +147,7 @@ def login():
     return render_template("login.html")
 
 
+# 登出
 @app.route("/logout")
 def logout():
     session.pop('user_name', None)
@@ -153,6 +155,7 @@ def logout():
     return redirect(url_for('index'))
 
 
+# 注册
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":

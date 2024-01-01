@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-	讨论です
+	{{ art.article_title }}
 {% endblock %}
 
 {% block style %}
@@ -13,73 +13,54 @@
 	.navbar navbar-expand-lg bg-body-tertiary {
 	border-radius: 30px;
 	}
+	.article {
+	margin-top: 20px;
+	margin-left: 120px;
+	margin-right: 500px;
+	}
+	.comment {
+	margin-top: 20px;
+	margin-left: 120px;
+	margin-right: 500px;
+	}
+	.time {
+	float: right;
+	}
 {% endblock %}
 
 
 {% block body %}
-<form class="discuss">
-	<div class="row">
-		<div class="col-sm-9">
-			<div class="list-group list-group-flush border-bottom scrollarea">
-				<div class="card">
-					<div class="card-body">
-						<h4>你芳文社今年就这表现是吧</h4>
-						<hr>
-						<div class="list-group list-group-flush border-bottom scrollarea">
-							<div href="#" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
-								<div class="d-flex w-100 align-items-center justify-content-between">
-									<strong class="mb-1">国内票房不如前几个剧场版 </strong>
-									<small class="text-muted">2023-12-25 15:59</small>
-								</div>
-								<div class="col-10 mb-1 small">"名探偵コナン 黒鉄の魚影"</div>
-								</di>
-							</div>
-							<div href="#" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
-								<div class="d-flex w-100 align-items-center justify-content-between">
-									<strong class="mb-1">国内票房不如前几个剧场版 </strong>
-									<small class="text-muted">2023-12-25 15:59</small>
-								</div>
-								<div class="col-10 mb-1 small">"名探偵コナン 黒鉄の魚影"</div>
-								</di>
-							</div>
-							<div href="#" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
-								<div class="d-flex w-100 align-items-center justify-content-between">
-									<strong class="mb-1">国内票房不如前几个剧场版 </strong>
-									<small class="text-muted">2023-12-25 15:59</small>
-								</div>
-								<div class="col-10 mb-1 small">"名探偵コナン 黒鉄の魚影"</div>
-								</di>
-							</div>
-							<div href="#" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
-								<div class="d-flex w-100 align-items-center justify-content-between">
-									<strong class="mb-1">国内票房不如前几个剧场版 </strong>
-									<small class="text-muted">2023-12-25 15:59</small>
-								</div>
-								<div class="col-10 mb-1 small">"名探偵コナン 黒鉄の魚影"</div>
-								</di>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-sm-3">
-			<div class="card">
-				<div class="card-body">
-					<div id="subject_inner_info" class="menu_inner clearit">
-						<a href="/subject/404115" title="星屑テレパス" class="avatar"><img
-								src="//lain.bgm.tv/r/100x100/pic/cover/l/e7/be/404115_P7u1Q.jpg" class="avatar ll"
-								width="48">星屑テレパス</a>
-						<div class="inner">
-							<ul>
-								<li><a href="/discuss" class="l">/ 返回条目讨论页面</a></li>
-								<li><a href="/subject/404115/topic/new" class="l">/ 添加新讨论</a></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+	<div class="container-md">
+	<div class = "article">
+		<h1>{{ art.article_title }}</h1>
+		<hr>
+		<h5>{{ art.article_text }}</h5>
+		<small class = "time">{{ name.user_name }} {{art.article_date }}</small>
+		<br>
+		<hr>
 	</div>
-</form>
+	<div class = "comment">
+		<h4 style = "color: #20c997">评论</h4>
+		<br>
+		<hr>
+		{% for i in range(num_comment) %}
+			<p>{{ comments[i].comment_text }}</p>
+			<small class = "time">{{ users[i]}} {{ comments[i].comment_date }}</small>
+			<br>
+			<hr>
+		{% endfor %}
+	</div>
+
+	<div class = "discuss">
+		<h4 style = "color: #20c997">发表评论</h4>
+		<br>
+		<form action = "/topic/{{ art.article_id }}" method = "post">
+			<div class="form-group">
+				<textarea class="form-control" name = "comment" rows="3" placeholder="请输入评论内容"></textarea>
+			</div>
+			<br>
+			<button type="submit" class="btn btn-primary">发表</button>
+		</form>
+	</div>
+	</div>
 {% endblock %}

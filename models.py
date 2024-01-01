@@ -5,6 +5,7 @@ from sqlalchemy import Integer, String
 from sqlalchemy.orm import mapped_column
 
 
+# 番剧表
 class BangumiType2(db.Model):
     __tablename__ = 'bangumi__type2'
     __table_args__ = (
@@ -30,6 +31,7 @@ class BangumiType2(db.Model):
         db.Text(collation='utf8mb4_unicode_ci'), nullable=False)
 
 
+#
 class BangumiEp(db.Model):
     __tablename__ = 'bangumi_ep'
     __table_args__ = (
@@ -60,6 +62,7 @@ class BgmCrtCv(db.Model):
     person_id = db.Column(db.Integer, nullable=False)
 
 
+# 角色表
 class BgmCharacter(db.Model):
     __tablename__ = 'bgm_character'
     __table_args__ = (
@@ -76,6 +79,7 @@ class BgmCharacter(db.Model):
     detail = db.Column(db.Text(collation='utf8mb4_unicode_ci'), nullable=False)
 
 
+# 演员声优表
 class BgmPersonCv(db.Model):
     __tablename__ = 'bgm_person__cv'
 
@@ -89,6 +93,7 @@ class BgmPersonCv(db.Model):
     detail = db.Column(db.Text(collation='utf8mb4_unicode_ci'), nullable=False)
 
 
+# 番剧讨论文章表
 class BgmArticle(db.Model):
     __tablename__ = 'bgm_article'
 
@@ -99,9 +104,17 @@ class BgmArticle(db.Model):
     article_date = db.Column(db.DateTime, nullable=False)
     article_user_id = db.Column(db.ForeignKey(
         'bgm_user.user_id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False, index=True)
+    article_anime_id = db.Column(db.ForeignKey(
+        'bangumi__type2.bangumi_id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False, index=True)
 
+    # 关联到用户
     article_user = db.relationship(
         'BgmUser', primaryjoin='BgmArticle.article_user_id == BgmUser.user_id', backref='bgm_articles')
+    # 关联到番剧
+    article_anime = db.relationship(
+        'BgmShow', primaryjoin='BgmArticle.article_anime_id == BgmShow.bangumi_id', backref='bgm_articles')
+
+# 评论表
 
 
 class BgmComment(db.Model):
@@ -118,9 +131,10 @@ class BgmComment(db.Model):
     comment_article = db.relationship(
         'BgmArticle', primaryjoin='BgmComment.comment_article_id == BgmArticle.article_id', backref='bgm_comments')
     comment_user = db.relationship(
-        'BgmUser', primaryjoin='BgmComment.comment_user_id == BgmUser.user_id', backref='bgm_comments')
+        'BgmUser', primaryjoin='BgmComment.comment_user_id == BangumiType2.user_id', backref='bgm_comments')
 
 
+# 用户表
 class BgmUser(db.Model):
     __tablename__ = 'bgm_user'
 

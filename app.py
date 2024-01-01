@@ -51,6 +51,7 @@ def index():
     art = BgmArticle.query.order_by(BgmArticle.article_date.desc()).limit(5)
     return render_template("index.html", ame=random_list, art=art)
 
+
 class User:
     def __init__(self, user_name, user_id):
         self.user_name = user_name
@@ -94,18 +95,34 @@ def popular():
     return render_template("popular.html")
 
 
+# 动漫详情页
 @app.route("/anime/<int:id>")
 def anime(id):
+
+    # 番剧的详细信息
     info = BangumiType2.query.filter_by(bangumi_id=id).first()
+
+    # 查找角色
     sql = text(
         "SELECT * FROM bgm_character WHERE bgm_character.character_id in (SELECT DISTINCT character_id FROM "
         "`bgm-crt-cv` WHERE bangumi_id = %d)" % id)
     conn = db.engine.connect()
     rs = conn.execute(sql)
+    # 角色列表
     characters = []
     for r in rs:
         characters.append(r)
-    return render_template("detail.html", info=info, characters=characters, len=min(len(characters), 8))
+
+    # 讨论列表（只传标题
+    articles = []
+    # 找出关联番剧的所有文章
+    articles = BgmArticle.query.with_entities(
+        BgmArticle.article_title).filter_by(article_anime_id=id).all()
+
+    animeDiscuss = []
+    animeDiscuss = [article.article_title for article in articles]
+
+    return render_template("detail.html", info=info, characters=characters, animeDiscuss=animeDiscuss, len=min(len(characters), 8))
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -199,6 +216,7 @@ def topic(id):
                                num_comment=len(comment))
 
 
+# 讨论
 @app.route("/discuss/<int:id>")
 def discuss(id):
     page = id

@@ -1,89 +1,92 @@
 {% extends "base.html" %}
 
 {% block title %}
-	动漫
+动漫
 {% endblock %}
 
 {% block body %}
-	<div class="container-sm">
-		<div class="row">
-			<div class = "col-sm-2">
+<div class="container-sm">
+	<div class="row">
+		<div class="col-sm-2">
 
-			</div>
-			<div class="col-sm-2">
-				<h4>{{ info.name_cn }}</h4>
-			</div>
 		</div>
-		<div class = "row">
-			<div class = "col-sm-2">
+		<div class="col-sm-2">
+			<h4>{{ info.name_cn }}</h4>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-2">
 
-			</div>
-			<div class = "col-sm-2">
-				<img class="bd-placeholder-img rounded float-start" width="200" height="200" xmlns="http://www.w3.org/1999/xhtml" role="img" aria-label="Placeholder: 200x200" preserveAspectRatio="xMidYMid slice" focusable="false" alt="8" src="{{ info.image }}">
+		</div>
+		<div class="col-sm-2">
+			<img class="bd-placeholder-img rounded float-start" width="200" height="200"
+				xmlns="http://www.w3.org/1999/xhtml" role="img" aria-label="Placeholder: 200x200"
+				preserveAspectRatio="xMidYMid slice" focusable="false" alt="8" src="{{ info.image }}">
 
-				{{ info.info|safe }}
-				<br>
-				<br>
-				<!--动漫内的info属性-->
-			</div>
-			<div class = "col-sm-5" id = "character">
-				　　{{ info.summary }}
-				<br>
-				<br>
-				<h4>角色</h4>
-				<div class="bd-example">
-					<div class="row">
-						<div class="col-4">
-							<div id="list-example" class="list-group">
-								{% for item in characters %}
-									<a class="list-group-item list-group-item-action" href="#list-item-{{ item.character_id }}">{{ item.name_cn }}</a>
-								{% endfor %}
-							</div>
+			{{ info.info|safe }}
+			<br>
+			<br>
+			<!--动漫内的info属性-->
+		</div>
+		<div class="col-sm-5" id="character">
+			　　{{ info.summary }}
+			<br>
+			<br>
+			<h4>角色</h4>
+			<div class="bd-example">
+				<div class="row">
+					<div class="col-4">
+						<div id="list-example" class="list-group">
+							{% for item in characters %}
+							<a class="list-group-item list-group-item-action"
+								href="#list-item-{{ item.character_id }}">{{ item.name_cn }}</a>
+							{% endfor %}
 						</div>
-						<div class="col-8">
-							<div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0">
-								{% for item in characters %}
-									<h4 id="list-item-{{ item.character_id }}">{{ item.name_cn }}</h4>
-									<p>{{ item.detail|safe }}</p>
-								{% endfor %}
-							</div>
+					</div>
+					<div class="col-8">
+						<div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true"
+							class="scrollspy-example" tabindex="0">
+							{% for item in characters %}
+							<h4 id="list-item-{{ item.character_id }}">{{ item.name_cn }}</h4>
+							<p>{{ item.detail|safe }}</p>
+							{% endfor %}
 						</div>
 					</div>
 				</div>
-				{#			查询角色#}
 			</div>
-			<div class = "col-sm-3">
-				相关讨论
-				<a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
-					<div class="d-flex w-100 align-items-center justify-content-between">
-						<strong class="mb-1">List group item heading</strong>
-					</div>
-					<div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-				</a>
-				<a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
-					<div class="d-flex w-100 align-items-center justify-content-between">
-						<strong class="mb-1">List group item heading</strong>
-					</div>
-					<div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-				</a>
+			{# 查询角色#}
+		</div>
+		<div class="col-sm-3">
+			相关讨论
+			<a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
+				<div class="d-flex w-100 align-items-center justify-content-between">
+					<strong class="mb-1">List group item heading</strong>
+				</div>
+				<div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+			</a>
+			<a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
+				<div class="d-flex w-100 align-items-center justify-content-between">
+					<strong class="mb-1">List group item heading</strong>
+				</div>
+				<div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+			</a>
 
-				<a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
-					<div class="d-flex w-100 align-items-center justify-content-between">
-						<strong class="mb-1">List group item heading</strong>
-					</div>
-					<div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-				</a>
+			<a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
+				<div class="d-flex w-100 align-items-center justify-content-between">
+					<strong class="mb-1">List group item heading</strong>
+				</div>
+				<div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+			</a>
 
-				<a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
-					<div class="d-flex w-100 align-items-center justify-content-between">
-						<strong class="mb-1">List group item heading</strong>
-					</div>
-					<div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-				</a>
-				<small><a href = "#">更多</a></small>
-				<small><a  href = "#">添加新讨论</a></small>
-			</div>
+			<a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
+				<div class="d-flex w-100 align-items-center justify-content-between">
+					<strong class="mb-1">List group item heading</strong>
+				</div>
+				<div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+			</a>
+			<small><a href="#">更多</a></small>
+			<small><a href="#">添加新讨论</a></small>
 		</div>
 	</div>
+</div>
 {% endblock %}
-
